@@ -4,6 +4,7 @@
       <div class="image" v-for="item in items" :key="item.id">
         <h2>{{ item.title }}</h2>
         <img :src="item.path" />
+        <p>Description: {{ item.textarea }}</p>
       </div>
     </section>
   </div>

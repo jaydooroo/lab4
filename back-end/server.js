@@ -13,6 +13,7 @@ const upload = multer({
 const itemSchema = new mongoose.Schema({
   title: String,
   path: String,
+  textarea: String,
 });
 
 // Create a model for items in the museum.
@@ -57,6 +58,7 @@ app.post("/api/items", async (req, res) => {
   const item = new Item({
     title: req.body.title,
     path: req.body.path,
+    textarea: req.body.textarea,
   });
   try {
     await item.save();
@@ -72,7 +74,7 @@ app.put("/api/items/:id", async (req, res) => {
       {
         _id: req.params.id,
       },
-      { title: req.body.title }
+      { title: req.body.title, textarea: req.body.textarea }
     );
     res.sendStatus(200);
   } catch (error) {

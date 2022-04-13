@@ -10,6 +10,11 @@
         <input v-model="title" placeholder="Title" />
         <p></p>
         <input type="file" name="photo" @change="fileChanged" />
+        <input
+          class="textareaInput"
+          v-model="textarea"
+          placeholder="Description"
+        />
         <button @click="upload">Upload</button>
       </div>
       <div class="upload" v-if="addItem">
@@ -37,6 +42,9 @@
       </div>
       <div class="upload" v-if="findItem">
         <input v-model="findItem.title" />
+        <br />
+        <br />
+        <input class="textareaInput" v-model="findItem.textarea" />
         <p></p>
         <img :src="findItem.path" />
       </div>
@@ -61,6 +69,8 @@ export default {
       items: [],
       findTitle: "",
       findItem: null,
+      textarea: "",
+      findTextarea: "",
     };
   },
   computed: {
@@ -87,6 +97,7 @@ export default {
     },
     selectItem(item) {
       this.findTitle = "";
+      this.findTextarea = "";
       this.findItem = item;
     },
     fileChanged(event) {
@@ -96,6 +107,7 @@ export default {
       try {
         await axios.put("/api/items/" + item._id, {
           title: this.findItem.title,
+          textarea: this.findItem.textarea,
         });
         this.findItem = null;
         this.getItems();
@@ -121,6 +133,7 @@ export default {
         let r2 = await axios.post("/api/items", {
           title: this.title,
           path: r1.data.path,
+          textarea: this.textarea,
         });
         this.addItem = r2.data;
       } catch (error) {
@@ -196,5 +209,10 @@ button {
 .suggestion:hover {
   background-color: #5bdeff;
   color: #fff;
+}
+
+.textareaInput {
+  width: 200px;
+  height: 100px;
 }
 </style>
